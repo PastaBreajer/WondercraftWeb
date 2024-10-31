@@ -1,323 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Project Z - Minecraft Addon</title>
+    <title>WonderCraft - Minecraft Bedrock Addon</title>
     <style>
-        /* Preloader Styles */
-        #preloader {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 9999;
-            background-color: #111; /* Preloader background color */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.5s ease-out;
-        }
-
-        #preloader.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* Preloader Spinner */
-        .spinner {
-            width: 100px;
-            height: 100px;
-            border: 15px solid #333;
-            border-top: 15px solid #0f9d58;
-            border-radius: 50%;
-            animation: spin 1.5s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* General Styles */
+        /* Basic Reset and Background */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         body {
-            background-color: #1e1e1e;
-            color: #fff;
+            font-family: Arial, sans-serif;
+            color: #333;
+            background: url('background.jpg') no-repeat center center fixed;
+            background-size: cover;
             overflow-x: hidden;
         }
 
-        header {
-            background-color: rgba(0, 0, 0, 0.8);
+        /* Header and Footer Styling */
+        header, footer {
+            background: rgba(34, 34, 34, 0.8);
+            color: white;
+            text-align: center;
             padding: 20px;
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 2px;
+            animation: fadeInDown 1s ease-out;
+        }
+        header p {
+            margin-top: 5px;
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        footer p {
+            font-size: 0.9rem;
         }
 
-        header img {
-            width: 120px;
+        /* Container and Content Styling */
+        .container {
+            width: 85%;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 1s ease-out;
+        }
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 15px;
+        }
+        p, ul {
+            line-height: 1.6;
         }
 
-        nav ul {
-            display: flex;
-            list-style: none;
-        }
-
-        nav ul li {
-            margin: 0 20px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            color: #fff;
-            font-size: 1.2em;
-            transition: color 0.3s;
-        }
-
-        nav ul li a:hover {
-            color: #0f9d58;
-        }
-
-        .hero {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: url('custom-background.jpg') no-repeat center center/cover;
-            position: relative;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 5em;
-            margin-bottom: 20px;
-            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.7);
-            animation: fadeInDown 1.5s ease;
-        }
-
-        .hero p {
-            font-size: 1.5em;
-            margin-bottom: 40px;
-            animation: fadeInUp 1.5s ease;
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero .button-group a {
-            background-color: #0f9d58;
-            color: #fff;
-            padding: 15px 30px;
-            margin: 0 10px;
-            text-decoration: none;
-            font-size: 1.2em;
-            border-radius: 30px;
-            transition: background-color 0.3s;
-        }
-
-        .hero .button-group a:hover {
-            background-color: #0c7b43;
-        }
-
-        /* Custom Background Animation */
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: -1;
-        }
-
-        /* Download Section */
-        .download-section {
-            padding: 100px 0;
-            background-color: #222;
-            text-align: center;
-        }
-
-        .download-section h2 {
-            font-size: 3em;
-            margin-bottom: 30px;
-            position: relative;
-        }
-
-        .download-section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
-            background-color: #0f9d58;
-        }
-
-        .download-buttons a {
+        /* Button Styling */
+        .button {
             display: inline-block;
-            margin: 10px 20px;
-            padding: 20px 40px;
-            font-size: 1.5em;
-            border-radius: 5px;
-            background-color: #0f9d58;
-            color: #fff;
+            padding: 12px 24px;
+            margin: 10px 5px;
+            color: white;
             text-decoration: none;
-            transition: background-color 0.3s;
-        }
-
-        .download-buttons a:hover {
-            background-color: #0c7b43;
-        }
-
-        /* Discord Section */
-        .discord-section {
-            padding: 100px 0;
-            background-color: #333;
-            text-align: center;
-        }
-
-        .discord-section h2 {
-            font-size: 3em;
-            margin-bottom: 30px;
-        }
-
-        .discord-section p {
-            font-size: 1.2em;
-            margin-bottom: 40px;
-        }
-
-        .discord-button {
-            display: inline-flex;
-            align-items: center;
-            padding: 15px 30px;
-            background-color: #7289da;
-            color: #fff;
-            font-size: 1.5em;
+            font-weight: bold;
             border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s;
+            transition: transform 0.3s ease;
+        }
+        .discord-btn {
+            background-color: #7289DA;
+        }
+        .download-btn {
+            background-color: #4CAF50;
+        }
+        .button:hover {
+            transform: scale(1.1);
         }
 
-        .discord-button img {
-            width: 40px;
-            margin-right: 10px;
+        /* FAQ Styling */
+        .faq-item {
+            margin: 15px 0;
+            cursor: pointer;
+        }
+        .faq-item h4 {
+            color: #4CAF50;
+            position: relative;
+        }
+        .faq-item h4::after {
+            content: '+';
+            float: right;
+            transition: transform 0.3s ease;
+        }
+        .faq-item.active h4::after {
+            content: '-';
+            transform: rotate(45deg);
+        }
+        .faq-answer {
+            display: none;
+            padding-left: 10px;
+            color: #555;
+            animation: slideDown 0.5s ease;
         }
 
-        .discord-button:hover {
-            background-color: #5b6dae;
+        /* Keyframes for Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-
-        /* Footer */
-        footer {
-            padding: 20px;
-            background-color: #111;
-            text-align: center;
-            color: #aaa;
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideDown {
+            from { max-height: 0; opacity: 0; }
+            to { max-height: 200px; opacity: 1; }
         }
     </style>
 </head>
-
 <body>
-    <!-- Preloader Section -->
-    <div id="preloader">
-        <div class="spinner"></div>
-    </div>
 
-    <!-- Header Section with Logo and Navigation -->
-    <header>
-        <img src="custom-logo.png" alt="Project Z Logo">
-        <nav>
-            <ul>
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#download">Download</a></li>
-                <li><a href="#discord">Discord</a></li>
-            </ul>
-        </nav>
-    </header>
+<header>
+    <h1>WonderCraft</h1>
+    <p>A Better Minecraft Bedrock Addon Experience</p>
+</header>
 
-    <!-- Hero Section with Background and Animations -->
-    <section class="hero" id="hero">
-        <div>
-            <h1>Project Z: Survive the Apocalypse</h1>
-            <p>Zombies. Guns. Ultimate Survival.</p>
-            <div class="button-group">
-                <a href="#download">Download Now</a>
-                <a href="#discord">Join our Discord</a>
-            </div>
+<div class="container">
+    <!-- Buttons -->
+    <a href="https://discord.gg/your-discord-link" class="button discord-btn" target="_blank">Join Us on Discord</a>
+    <a href="https://example.com/download" class="button download-btn" target="_blank">Download WonderCraft</a>
+
+    <!-- About Section -->
+    <section>
+        <h2>About WonderCraft</h2>
+        <p>WonderCraft is a Minecraft Bedrock addon that enhances your gameplay with improved features and custom content, allowing you to experience Minecraft in new and exciting ways.</p>
+    </section>
+
+    <!-- Creators List -->
+    <section>
+        <h2>Creators</h2>
+        <ul>
+            <li><strong>Creator 1</strong> - Lead Developer</li>
+            <li><strong>Creator 2</strong> - Designer</li>
+            <li><strong>Creator 3</strong> - Scripter</li>
+        </ul>
+    </section>
+
+    <!-- FAQ Section -->
+    <section>
+        <h2>Frequently Asked Questions</h2>
+        
+        <div class="faq-item">
+            <h4>What is WonderCraft?</h4>
+            <p class="faq-answer">WonderCraft is a Minecraft Bedrock addon that enhances your gameplay with new features and custom content.</p>
+        </div>
+
+        <div class="faq-item">
+            <h4>How do I install WonderCraft?</h4>
+            <p class="faq-answer">Download the addon file, import it into Minecraft Bedrock, and activate it in your world.</p>
+        </div>
+
+        <div class="faq-item">
+            <h4>Can I use WonderCraft on multiplayer servers?</h4>
+            <p class="faq-answer">Yes, WonderCraft is compatible with multiplayer servers, provided they support Bedrock addons.</p>
         </div>
     </section>
+</div>
 
-    <!-- Download Section -->
-    <section class="download-section" id="download">
-        <h2>Download Project Z</h2>
-        <div class="download-buttons">
-            <a href="your-download-link-here">Download for Minecraft Bedrock</a>
-            <a href="your-download-link-here">Download for Minecraft Java</a>
-        </div>
-    </section>
+<footer>
+    <p>&copy; 2024 WonderCraft Addon. All Rights Reserved.</p>
+</footer>
 
-    <!-- Discord Section -->
-    <section class="discord-section" id="discord">
-        <h2>Join the Community</h2>
-        <p>Chat with fellow survivors, get updates, and share your experiences!</p>
-        <a href="https://discord.gg/j9KCQchGXg" class="discord-button">
-            <img src="discord-icon.png" alt="Discord Icon"> Join our Discord Server
-        </a>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2024 Project Z. All rights reserved.</p>
-    </footer>
-
-    <script>
-        // Preloader functionality
-        window.addEventListener('load', function () {
-            const preloader = document.getElementById('preloader');
-            preloader.classList.add('hidden');
-            setTimeout(() => {
-                preloader.style.display = 'none';
-            }, 500); // After fading out
+<script>
+    // FAQ Toggle
+    document.querySelectorAll(".faq-item").forEach(item => {
+        item.addEventListener("click", () => {
+            item.classList.toggle("active");
+            const answer = item.querySelector(".faq-answer");
+            answer.style.display = answer.style.display === "block" ? "none" : "block";
         });
-    </script>
-</body>
+    });
+</script>
 
+</body>
 </html>

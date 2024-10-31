@@ -64,7 +64,6 @@
             background: rgba(0, 0, 0, 0.85);
             border-radius: 15px;
             box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
-            animation: fadeInUp 1s ease-out;
         }
 
         /* Button Styling */
@@ -127,70 +126,52 @@
             font-size: 0.9rem;
             background: rgba(34, 34, 34, 0.9);
         }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes reloadRotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        /* Button Animation */
-        .reload-btn {
-            animation: reloadRotate 1s linear infinite;
-            transform-origin: center;
-        }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>WonderCraft</h1>
-    <p>A Better Minecraft Bedrock Experience</p>
-    <!-- Language Selector -->
-    <button class="language-selector" onclick="toggleLanguage()">Language</button>
+    <h1 id="title">WonderCraft</h1>
+    <p id="subtitle">A Better Minecraft Bedrock Experience</p>
+    <select class="language-selector" onchange="changeLanguage()" id="languageSelect">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="fi">Suomi</option>
+        <option value="sv">Svenska</option>
+        <option value="pt">Português</option>
+        <option value="hi">हिन्दी</option>
+        <option value="fr">Français</option>
+    </select>
 </header>
 
 <div class="container">
     <!-- Action Buttons -->
-    <a href="https://discord.gg/C8B4HQ7fCh" class="button discord-btn" target="_blank">Join Us on Discord</a>
-    <a href="https://direct-link.net/499358/wondercraft-modpack" class="button download-btn" target="_blank">Download WonderCraft</a>
+    <a href="https://discord.gg/your-discord-link" class="button discord-btn" target="_blank" id="discordBtn">Join Us on Discord</a>
+    <a href="https://example.com/download" class="button download-btn" target="_blank" id="downloadBtn">Download WonderCraft</a>
 
     <!-- About Section -->
     <section style="margin-top: 20px;">
-        <h2>About WonderCraft</h2>
-        <p>WonderCraft brings an enhanced Minecraft Bedrock experience with improved features, new blocks, items, and gameplay tweaks. Built for both casual and advanced players, it’s designed to push the limits of Minecraft Bedrock Edition!</p>
-    </section>
-
-    <!-- Creators List -->
-    <section>
-        <h2>Creators</h2>
-        <ul>
-            <li><strong>Pepe</strong> - Lead Developer</li>
-            <li><strong>PastaBreaker</strong> - Designer</li>
-            <li><strong>Zyk</strong> - Cool dude</li>
-        </ul>
+        <h2 id="aboutTitle">About WonderCraft</h2>
+        <p id="aboutContent">WonderCraft brings an enhanced Minecraft Bedrock experience with improved features, new blocks, items, and gameplay tweaks. Built for both casual and advanced players, it’s designed to push the limits of Minecraft Bedrock Edition!</p>
     </section>
 
     <!-- FAQ Section -->
     <section>
-        <h2>Frequently Asked Questions</h2>
+        <h2 id="faqTitle">Frequently Asked Questions</h2>
         
         <div class="faq-item">
-            <h4>What is WonderCraft?</h4>
-            <p class="faq-answer">WonderCraft is a Minecraft Bedrock addon that enhances gameplay with new features, content, and much more.</p>
+            <h4 id="faq1">What is WonderCraft?</h4>
+            <p class="faq-answer" id="faq1Answer">WonderCraft is a Minecraft Bedrock addon that enhances gameplay with new features, content, and much more.</p>
         </div>
 
         <div class="faq-item">
-            <h4>How do I install WonderCraft?</h4>
-            <p class="faq-answer">Simply download the addon file, import it into Minecraft Bedrock, and activate it in your world settings.</p>
+            <h4 id="faq2">How do I install WonderCraft?</h4>
+            <p class="faq-answer" id="faq2Answer">Simply download the addon file, import it into Minecraft Bedrock, and activate it in your world settings.</p>
         </div>
 
         <div class="faq-item">
-            <h4>Can I use WonderCraft on multiplayer servers?</h4>
-            <p class="faq-answer">Yes! WonderCraft is fully compatible with Bedrock multiplayer servers that support addons.</p>
+            <h4 id="faq3">Can I use WonderCraft on multiplayer servers?</h4>
+            <p class="faq-answer" id="faq3Answer">Yes! WonderCraft is fully compatible with Bedrock multiplayer servers that support addons.</p>
         </div>
     </section>
 </div>
@@ -200,24 +181,38 @@
 </footer>
 
 <script>
-    // Toggle FAQ
-    document.querySelectorAll(".faq-item").forEach(item => {
-        item.addEventListener("click", () => {
-            item.classList.toggle("active");
-            const answer = item.querySelector(".faq-answer");
-            answer.style.display = answer.style.display === "block" ? "none" : "block";
-        });
-    });
+    const translations = {
+        en: {
+            title: "WonderCraft",
+            subtitle: "A Better Minecraft Bedrock Experience",
+            discordBtn: "Join Us on Discord",
+            downloadBtn: "Download WonderCraft",
+            aboutTitle: "About WonderCraft",
+            aboutContent: "WonderCraft brings an enhanced Minecraft Bedrock experience with improved features, new blocks, items, and gameplay tweaks. Built for both casual and advanced players, it’s designed to push the limits of Minecraft Bedrock Edition!",
+            faqTitle: "Frequently Asked Questions",
+            faq1: "What is WonderCraft?",
+            faq1Answer: "WonderCraft is a Minecraft Bedrock addon that enhances gameplay with new features, content, and much more.",
+            faq2: "How do I install WonderCraft?",
+            faq2Answer: "Simply download the addon file, import it into Minecraft Bedrock, and activate it in your world settings.",
+            faq3: "Can I use WonderCraft on multiplayer servers?",
+            faq3Answer: "Yes! WonderCraft is fully compatible with Bedrock multiplayer servers that support addons."
+        },
+        es: { /* Spanish translation */ },
+        fi: { /* Finnish translation */ },
+        sv: { /* Swedish translation */ },
+        pt: { /* Portuguese translation */ },
+        hi: { /* Hindi translation */ },
+        fr: { /* French translation */ }
+    };
 
-    // Language Toggle
-    function toggleLanguage() {
-        alert("Language toggle feature coming soon!");
+    function changeLanguage() {
+        const language = document.getElementById("languageSelect").value;
+        const texts = translations[language];
+
+        for (const key in texts) {
+            document.getElementById(key).textContent = texts[key];
+        }
     }
-
-    // Page Reload Animation
-    window.addEventListener('beforeunload', () => {
-        document.querySelector('body').classList.add('reload-btn');
-    });
 </script>
 
 </body>
